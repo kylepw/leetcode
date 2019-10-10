@@ -12,25 +12,19 @@ import unittest
 
 def convert(s, numRows):
     parsed = [[] for _ in range(numRows)]
+    if numRows < 2:
+        return s
 
-    counter = i = j = 0
-    while i < len(s):
-        if j >= len(parsed):
-            j = 0
-        if counter == numRows:
-            counter = -1
-            diagonal_row = numRows - 2
-            while i < len(s) and diagonal_row > 0:
-                parsed[diagonal_row].append(s[i])
-                diagonal_row -= 1
-                i += 1
-            j = 0
-        else:
-            parsed[j].append(s[i])
-            j += 1
-            i += 1
-        counter += 1
-    return ''.join([item for row in parsed for item in row])
+    current_row = 0
+    going_down = False
+
+    for c in s:
+        parsed[current_row].append(c)
+        if current_row == 0 or current_row == (numRows - 1):
+            going_down = not going_down
+        current_row += 1 if going_down else -1
+
+    return ''.join([c for row in parsed for c in row])
 
 
 class TestConvert(unittest.TestCase):
