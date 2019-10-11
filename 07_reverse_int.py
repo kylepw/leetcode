@@ -19,6 +19,13 @@ integer overflows.
 """
 import unittest
 
+def reverse(x):
+    rev = 0
+    while x > 0:
+        pop = x % 10
+        x //= 10
+        rev = rev * 10 + pop
+    return rev
 
 def reverse_num(x):
     if x > 2**31 - 1 or x < -2**31:
@@ -47,9 +54,13 @@ class TestReverse(unittest.TestCase):
             120: 21,
         }
 
-    def test_reverse(self):
+    def test_reverse_num(self):
         for x, expected in self.data.items():
             self.assertEqual(reverse_num(x), expected)
+
+    def test_reverse(self):
+        for x, expected in self.data.items():
+            self.assertEqual(reverse(x), expected)
 
 
 if __name__ == "__main__":
